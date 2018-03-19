@@ -48,7 +48,14 @@ namespace VideoRecorder
             {
                 if (writerSet)
                 {
-                    fileWriter.WriteVideoFrame(frame);
+                    try
+                    {
+                        fileWriter.WriteVideoFrame(frame);
+                    }
+                    catch(Exception e)
+                    {
+
+                    }
                     return;
                 }
 
