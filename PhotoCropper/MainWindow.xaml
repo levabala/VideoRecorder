@@ -1,0 +1,18 @@
+﻿<Window x:Class="PhotoCropper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PhotoCropper"
+        mc:Ignorable="d"
+        x:Name="myWindow"
+        Title="MainWindow" Height="685.417" Width="815.808">
+    <Grid>
+        <ListBox x:Name="ListBoxPhotos" HorizontalAlignment="Left" Margin="10,10,0,9.698" Width="210" AllowDrop="True"/>
+        <Image x:Name="ImagePhoto" Margin="220,10,9.755,9.698"/>
+        <Canvas x:Name="CanvasCropRect" Margin="0,0,0,0" Background="{x:Null}">
+            <Rectangle x:Name="RectangleCropArea" Fill="#FFF4F4F5" Height="0" Width="0" Opacity="0.3" IsHitTestVisible="False"/>
+        </Canvas>
+
+    </Grid>
+</Window>

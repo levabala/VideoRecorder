@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VideoRecorder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        x:Name="myWindow"
+        Title="MainWindow" Height="753.019" Width="1478.206">
     <Grid>
-        <Image x:Name="ImageRealTime" Margin="10,10,348.038,189.698"/>
-        <Button x:Name="ButtonStartRecording" Content="Start Recording" Margin="10,0,348.038,156.698" Height="28" VerticalAlignment="Bottom"/>
-        <Button x:Name="ButtonStopRecording" Content="Stop Recording" Margin="10,0,348.038,123.698" VerticalAlignment="Bottom" Height="28"/>
+        <Image x:Name="ImageRealTime" Margin="10,10,0,251.66" HorizontalAlignment="Left" Width="524"/>
+        <Button x:Name="ButtonStartRecording" Content="Start Recording" Margin="10,0,0,218.717" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="524"/>
+        <Button x:Name="ButtonStopRecording" Content="Stop Recording" Margin="10,0,0,185.717" VerticalAlignment="Bottom" Height="28" HorizontalAlignment="Left" Width="524"/>
+        <Image x:Name="ImageRealTimeProcessed" Margin="559,10,9.792,251.717"/>
     </Grid>
 </Window>

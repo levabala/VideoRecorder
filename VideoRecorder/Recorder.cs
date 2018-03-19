@@ -12,6 +12,7 @@ using AForge.Video.DirectShow;
 using Accord.Video.FFMPEG;
 using Accord.Video.VFW;
 using System.Timers;
+using System.IO;
 
 namespace VideoRecorder
 {   
@@ -35,37 +36,45 @@ namespace VideoRecorder
             };
 
             FilterInfoCollection devices = new FilterInfoCollection(FilterCategory.VideoInputDevice);            
-            captureDevice = new VideoCaptureDevice(devices[0].MonikerString);            
-            captureDevice.NewFrame += CaptureDevice_NewFrame;            
+            captureDevice = new VideoCaptureDevice(devices[0].MonikerString);                                    
         }
 
         bool writerSet = false;
+        object locker = new object();
         private void CaptureDevice_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap frame = eventArgs.Frame;
-            if (writerSet)
+            lock (locker)
             {
-                fileWriter.WriteVideoFrame(frame);
-                return;
+                if (writerSet)
+                {
+                    fileWriter.WriteVideoFrame(frame);
+                    return;
+                }
+
+                DateTime dateTime = DateTime.Now;
+                int width = frame.Width;
+                int height = frame.Height;
+                string name = dateTime.ToString("dd/MM/yyyy_hh-mm-ss");
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Captures");                
+                fileWriter.Open(Directory.GetCurrentDirectory() + "\\Captures\\" + name + ".avi", width, height);
+
+                writerSet = true;
             }
-
-            DateTime dateTime = DateTime.Now;
-            int width = frame.Width;
-            int height = frame.Height;
-            fileWriter.Open(dateTime.Millisecond.ToString() + ".avi", width, height);
-
-            writerSet = true;
         }
         
         public void StartRecording()
-        {            
+        {
+            captureDevice.NewFrame += CaptureDevice_NewFrame;
             captureDevice.Start();            
         }
 
         public void StopRecording()
         {
-            captureDevice.Stop();
-            fileWriter.Close();
+            captureDevice.NewFrame -= CaptureDevice_NewFrame;
+            writerSet = false;
+            captureDevice.SignalToStop();
+            fileWriter.Flush();            
         }
 
         bool listening = false;
